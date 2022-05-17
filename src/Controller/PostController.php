@@ -2,11 +2,11 @@
 
 namespace App\controller;
 
-use App\Serializer;
+use App\Service\Serializer;
 
-class IndexController
+class PostController
 {
-    private $serializer;
+    private Serializer $serializer;
 
     public function __construct(Serializer $serializer)
     {

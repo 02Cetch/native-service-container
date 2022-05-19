@@ -7,7 +7,7 @@ class Container
     /*
      * ['service_name'] => \Closure() { return new ClassName }
      */
-    public array $services = [];
+    private array $services = [];
 
     /*
      * storage [namespace_alias] => serviceName
@@ -72,7 +72,7 @@ class Container
     /**
      * autowiring function
      */
-    public function loadServices(string $namespace): void
+    public function loadServices(string $namespace, ?\Closure $annotationCallback = null): void
     {
         $baseDir = __DIR__ . '/';
         $actualDirectory = str_replace('\\', '/', $namespace);
@@ -142,6 +142,13 @@ class Container
 
                 return new $serviceName(...$serviceParameters);
             });
+
+            /**
+             * It needs to load controllers route paths
+             */
+            if ($annotationCallback) {
+                $annotationCallback($serviceName, $class);
+            }
         }
     }
 }
